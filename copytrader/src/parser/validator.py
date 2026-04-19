@@ -6,10 +6,11 @@ Checks:
 - TP/SL levels are reasonable (not too close/far)
 - No conflicting positions open
 - Risk parameters are met
+- Min notional requirements
 """
 
 from decimal import Decimal
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 import structlog
 
@@ -21,10 +22,22 @@ logger = structlog.get_logger(__name__)
 # Major coins for correlation check
 MAJOR_COINS = {'BTCUSDT', 'ETHUSDT', 'SOLUSDT'}
 
+# Min notional by symbol (BingX requirements)
+MIN_NOTIONAL = {
+    'BTCUSDT': Decimal('5'),
+    'ETHUSDT': Decimal('5'),
+    'default': Decimal('2'),  # All other symbols
+}
+
 
 class ValidationError(Exception):
     """Raised when signal validation fails."""
     pass
+
+
+def get_min_notional(symbol: str) -> Decimal:
+    """Get minimum notional for a symbol."""
+    return MIN_NOTIONAL.get(symbol, MIN_NOTIONAL['default'])
 
 
 def validate_signal(
@@ -106,14 +119,14 @@ def validate_signal(
     if sl_distance == 0:
         return False, "SL distance is zero"
     
-    # Position size = risk_amount / sl_distance
+    # Position size = risk_amount / sl_distance * leverage
     position_size_usdt = risk_amount * signal.leverage
     
-    # BingX min notional is typically $5 for BTC, $1-2 for others
-    min_notional = Decimal('5') if signal.symbol in {'BTCUSDT', 'ETHUSDT'} else Decimal('2')
+    # Get min notional for this symbol
+    min_notional = get_min_notional(signal.symbol)
     
     if position_size_usdt < min_notional:
-        return False, f"Position size ${position_size_usdt:.2f} below min notional ${min_notional}"
+        return False, f"Position size ${position_size_usdt:.2f} below min notional ${min_notional} for {signal.symbol}"
     
     logger.info(
         "Signal validation passed",

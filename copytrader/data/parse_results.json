@@ -1,0 +1,10 @@
+{
+  "total_messages": 3,
+  "signals_found": 0,
+  "signals_parsed": 0,
+  "updates_found": 0,
+  "updates_parsed": 0,
+  "failed_signals": [],
+  "failed_updates": [],
+  "by_ticker": {}
+}
