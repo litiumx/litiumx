@@ -1,0 +1,23 @@
+============================================================
+PARSER TEST REPORT
+============================================================
+Total signals: 3
+Successfully parsed: 3
+Failed to parse: 0
+Success rate: 100.0%
+
+SUCCESSFULLY PARSED SIGNALS:
+----------------------------------------
+  BTCUSDT: 1 signals
+  ETHUSDT: 1 signals
+  SOLUSDT: 1 signals
+
+Sample parsed signal:
+  ID: 12345
+  Symbol: BTCUSDT
+  Type: long
+  Leverage: x20
+  Entry: 67500
+  TP1/TP2/TP3: 68200/69000/70000
+  SL: 66800
+============================================================
