@@ -26,7 +26,7 @@ logger = structlog.get_logger(__name__)
 # Стоп-лосс: {sl}
 SIGNAL_PATTERN = re.compile(
     r'📈\s*(?:Покупка\s*/\s*long|LONG)\s*\n?'
-    r'(?:Торговая пара|Pair):\s*\$?([A-Za-z]+)\s*\n?'
+    r'(?:Торговая пара|Pair):\s*\$?([A-Z0-9]+)\s*\n?'
     r'(?:Кредитное плечо|Leverage):\s*x?(\d+)\s*\n?'
     r'(?:Вход|Entry):\s*(?:по рынку|market)\s*\(([\d.,]+)\)\s*\n?'
     r'(?:Цели|Targets):\s*([\d.,]+)\s*/\s*([\d.,]+)\s*/\s*([\d.,]+)\s*\n?'
